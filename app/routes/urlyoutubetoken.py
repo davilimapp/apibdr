@@ -28,6 +28,7 @@ class EmbeddingRequest(BaseModel):
     content: str  # URL do vídeo do YouTube
     id_knowledge: str
     id_company: str
+    id_agente: str
 
 # Inicializar componentes do LangChain
 text_splitter = CharacterTextSplitter(chunk_size=400, chunk_overlap=50, separator=" ")
@@ -114,7 +115,8 @@ async def generate_embeddings(request: EmbeddingRequest):
             response = supabase.table("embeddings").insert({
                 "id_knowledge": request.id_knowledge,
                 "content": chunk,
-                "embedding": embedding
+                "embedding": embedding,
+                "agent_id": request.id_agente
             }).execute()
 
             if not response.data:
