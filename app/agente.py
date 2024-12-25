@@ -14,6 +14,7 @@ from langchain_core.retrievers import BaseRetriever
 from dotenv import load_dotenv
 import asyncio
 from app.routes import pdftoken, process_docx_token, textotoken, txttoken, urlsitetoken, urlyoutubetoken
+from fastapi.middleware.cors import CORSMiddleware
 
 # Carregar variáveis do .env apenas no desenvolvimento local
 if os.path.exists(".env"):
@@ -220,6 +221,14 @@ memory = ConversationBufferMemory(memory_key="chat_history", return_messages=Tru
 # Configuração do FastAPI
 app = FastAPI(title="API Question and Embbedings QA", description="API para o Assistente de QA com LangChain e Supabase")
 
+# Configuração do middleware de CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Alterar para os domínios confiáveis em produção
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Registrar os routers
 app.include_router(pdftoken.router, prefix="/api/v1", tags=["PDF Tokens"])
