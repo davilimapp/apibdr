@@ -11,6 +11,7 @@ import requests
 import unicodedata
 import tiktoken
 
+
 # Carregar variáveis do .env apenas no desenvolvimento local
 if os.path.exists(".env"):
     load_dotenv()
